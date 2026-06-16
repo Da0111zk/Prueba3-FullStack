@@ -1,0 +1,360 @@
+services:
+ 
+  # ════════════════════════════════════════════════════════════════════════════
+  # EUREKA SERVER — servidor de descubrimiento
+  # Debe arrancar primero. Los demás servicios esperan que esté healthy.
+  # ════════════════════════════════════════════════════════════════════════════
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8761:8761"          # Panel web de Eureka: http://localhost:8761
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+    healthcheck:
+      test: ["NONE"]
+    networks:
+      - bodega-network
+    restart: unless-stopped
+ 
+  # ════════════════════════════════════════════════════════════════════════════
+  # API GATEWAY — único punto de entrada externo (puerto 8080)
+  # ════════════════════════════════════════════════════════════════════════════
+  ms-gateway:
+    build:
+      context: ./ms-gateway
+      dockerfile: Dockerfile
+    container_name: ms-gateway
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8080:8080"          # TODO el tráfico del frontend entra por acá
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_APPLICATION_NAME=ms-gateway
+      - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=false
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+ 
+  # ════════════════════════════════════════════════════════════════════════════
+  # MICROSERVICIOS DE NEGOCIO
+  # Todos comparten:
+  #   - EUREKA_URL: apunta al contenedor eureka-server
+  #   - WALLET_PATH: volumen montado con el wallet de Oracle Cloud
+  #   - DB_PASSWORD: password de Oracle (cambiar en producción por secret)
+  # ════════════════════════════════════════════════════════════════════════════
+ 
+  ms-categorias:
+    build:
+      context: ./ms-categorias
+      dockerfile: Dockerfile
+    container_name: ms-categorias
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8081:8081"          # Expuesto para debugging directo (opcional en prod)
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      # Monta el wallet de Oracle Cloud dentro del contenedor
+      # Cambiar la ruta izquierda a donde tengas el wallet en tu máquina/servidor
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-productos:
+    build:
+      context: ./ms-producto
+      dockerfile: Dockerfile
+    container_name: ms-productos
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-categorias:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-bodega:
+    build:
+      context: ./ms-bodega
+      dockerfile: Dockerfile
+    container_name: ms-bodega
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-proveedores:
+    build:
+      context: ./ms-proveedores
+      dockerfile: Dockerfile
+    container_name: ms-proveedores
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8089:8089"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-usuarios:
+    build:
+      context: ./ms-usuarios
+      dockerfile: Dockerfile
+    container_name: ms-usuarios
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8090:8090"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-kardex:
+    build:
+      context: ./ms-kardex
+      dockerfile: Dockerfile
+    container_name: ms-kardex
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8086:8086"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-productos:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-ingresos:
+    build:
+      context: ./ms-ingresos
+      dockerfile: Dockerfile
+    container_name: ms-ingresos
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-productos:
+        condition: service_started
+      ms-proveedores:
+        condition: service_started
+      ms-kardex:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-egresos:
+    build:
+      context: ./ms-egresos
+      dockerfile: Dockerfile
+    container_name: ms-egresos
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8083:8083"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-productos:
+        condition: service_started
+      ms-kardex:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-ajuste:
+    build:
+      context: ./ms-ajuste
+      dockerfile: Dockerfile
+    container_name: ms-ajuste
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8088:8088"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-productos:
+        condition: service_started
+      ms-kardex:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+  ms-traslados:
+    build:
+      context: ./ms-traslados
+      dockerfile: Dockerfile
+    container_name: ms-traslados
+    extra_hosts:
+          - "mmg8hvewk688yrh4_low:140.238.216.51"
+    ports:
+      - "8087:8087"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - WALLET_PATH=/wallet
+      - DB_PASSWORD=FullStack-Bodega1
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TNS_ADMIN=/wallet
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
+    volumes:
+      - ${WALLET_PATH:-C:\Users\usuario\Downloads\Sistema-Bodegas.v1.2.1\Sistema-Bodegas.v1.2.1\Wallet_MMG8HVEWK688YRH4}:/wallet:ro
+    depends_on:
+      eureka-server:
+        condition: service_started
+      ms-productos:
+        condition: service_started
+      ms-bodega:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+ 
+# ════════════════════════════════════════════════════════════════════════════
+# RED INTERNA
+# Todos los contenedores se comunican por nombre (ej: http://ms-kardex:8086)
+# ════════════════════════════════════════════════════════════════════════════
+
+networks:
+  bodega-network:
+    driver: bridge
+    name: bodega-network
+    driver_opts:
+      com.docker.network.bridge.name: "bodega-network"

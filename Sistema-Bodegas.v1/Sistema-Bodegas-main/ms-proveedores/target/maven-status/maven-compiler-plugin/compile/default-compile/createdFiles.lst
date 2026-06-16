@@ -1,0 +1,10 @@
+com\example\ms_provedores\repository\ProvedorRepository.class
+com\example\ms_provedores\controller\ProvedorController.class
+com\example\ms_provedores\dto\ProvedoresDto.class
+com\example\ms_provedores\MsProvedoresApplication.class
+com\example\ms_provedores\webConfing\ProvecorWebConfing$WebConfig.class
+com\example\ms_provedores\exception\ms_provedoresException.class
+com\example\ms_provedores\modelo\Provedor.class
+com\example\ms_provedores\webConfing\ProvecorWebConfing.class
+com\example\ms_provedores\service\ProvedorService.class
+com\example\ms_provedores\dto\DtoResponseProvedor.class

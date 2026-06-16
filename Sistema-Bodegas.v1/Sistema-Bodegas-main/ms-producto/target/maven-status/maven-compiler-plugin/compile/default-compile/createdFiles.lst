@@ -1,0 +1,10 @@
+com\example\ms_producto\dto\ProductoDto.class
+com\example\ms_producto\webConfing\ProductoWeb.class
+com\example\ms_producto\MsProductoApplication.class
+com\example\ms_producto\webConfing\ProductoWeb$WebConfig.class
+com\example\ms_producto\modelo\Producto.class
+com\example\ms_producto\config\DataInitializer.class
+com\example\ms_producto\repository\ProductoRepository.class
+com\example\ms_producto\controller\ProductoController.class
+com\example\ms_producto\dto\DtoResponseProducto.class
+com\example\ms_producto\service\ProductoService.class

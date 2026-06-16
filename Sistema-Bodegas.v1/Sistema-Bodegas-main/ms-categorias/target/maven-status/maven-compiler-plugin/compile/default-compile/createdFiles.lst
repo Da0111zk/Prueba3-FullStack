@@ -1,0 +1,11 @@
+com\example\ms_categorias\controller\CategoriaController.class
+com\example\ms_categorias\webConfing\ConfingCategoria$WebConfig.class
+com\example\ms_categorias\webConfing\ConfingCategoria.class
+com\example\ms_categorias\exception\CategoriaException.class
+com\example\ms_categorias\repository\CategoriaRepository.class
+com\example\ms_categorias\modelo\Categoria.class
+com\example\ms_categorias\Dto\DtoCategoria.class
+com\example\ms_categorias\service\ServicioCategoria.class
+com\example\ms_categorias\MsCategoriasApplication.class
+com\example\ms_categorias\Dto\DtoResponseCategoria.class
+com\example\ms_categorias\config\DataInitializer.class

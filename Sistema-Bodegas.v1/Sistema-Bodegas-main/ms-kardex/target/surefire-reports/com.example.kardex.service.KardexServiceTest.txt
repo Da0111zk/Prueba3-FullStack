@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------
+Test set: com.example.kardex.service.KardexServiceTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.759 s <<< FAILURE! -- in com.example.kardex.service.KardexServiceTest
+com.example.kardex.service.KardexServiceTest.registrarMovimiento_ajusteNegativo_exitoso -- Time elapsed: 0.030 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <10> but was: <30>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:538)
+	at com.example.kardex.service.KardexServiceTest.registrarMovimiento_ajusteNegativo_exitoso(KardexServiceTest.java:172)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.example.kardex.service.KardexServiceTest.registrarMovimiento_egreso_exitoso -- Time elapsed: 0.011 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <10> but was: <30>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:538)
+	at com.example.kardex.service.KardexServiceTest.registrarMovimiento_egreso_exitoso(KardexServiceTest.java:118)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.example.kardex.service.KardexServiceTest.registrarMovimiento_ingreso_creaStockSiNoExiste -- Time elapsed: 0.027 s <<< FAILURE!
+org.mockito.exceptions.verification.TooManyActualInvocations: 
+
+stockRepository.save(
+    <any com.example.kardex.model.StockActual>
+);
+Wanted 1 time:
+-> at com.example.kardex.service.KardexServiceTest.registrarMovimiento_ingreso_creaStockSiNoExiste(KardexServiceTest.java:101)
+But was 2 times:
+-> at com.example.kardex.service.KardexService.lambda$registrarMovimiento$0(KardexService.java:35)
+-> at com.example.kardex.service.KardexService.registrarMovimiento(KardexService.java:63)
+
+
+	at com.example.kardex.service.KardexServiceTest.registrarMovimiento_ingreso_creaStockSiNoExiste(KardexServiceTest.java:101)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

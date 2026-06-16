@@ -1,0 +1,10 @@
+com\example\ajustes\controller\AjusteController.class
+com\example\ajustes\repository\AjusteRepository.class
+com\example\ajustes\AjusteApplication.class
+com\example\ajustes\service\AjusteService.class
+com\example\ajustes\dto\AjusteRequestDTO.class
+com\example\ajustes\dto\AjusteResponseDTO.class
+com\example\ajustes\config\WebClientConfig.class
+com\example\ajustes\service\AjusteService$1.class
+com\example\ajustes\model\Ajuste.class
+com\example\ajustes\config\DataInitializer.class
