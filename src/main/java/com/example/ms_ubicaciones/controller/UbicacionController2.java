@@ -63,21 +63,18 @@ public class UbicacionController2 {
     }
 
     @PutMapping("/{ubicacionId}")
-    @Operation(summary = "Actualizar una ubicación", description = "Actualiza los datos de una ubicación existente")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Ubicación actualizada exitosamente",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DtoResponseUbi.class))),
-        @ApiResponse(responseCode = "404", description = "Ubicación no encontrada")
-    })
-    public ResponseEntity<DtoResponseUbi> actualizar(@PathVariable Long ubicacionId, @Valid @RequestBody DtoUbi dtoUbi) {
-        return ubicacionService.obtenerPorId(ubicacionId)
-                .map(existente -> {
-                    dtoUbi.setUbicacionId(ubicacionId);
-                    return ResponseEntity.ok(ubicacionService.guardar(dtoUbi));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        @Operation(summary = "Actualizar una ubicación", description = "Actualiza los datos de una ubicación existente")
+        public ResponseEntity<DtoResponseUbi> actualizar(@PathVariable Long ubicacionId, @Valid @RequestBody DtoUbi dtoUbi) {
+            return ubicacionService.obtenerPorId(ubicacionId)
+                    .map(existente -> {
+                        // Forzamos el ID de la URL en el DTO antes de mandar a guardar para que sea un UPDATE real
+                        dtoUbi.setUbicacionId(ubicacionId); 
+                        return ResponseEntity.ok(ubicacionService.guardar(dtoUbi)); 
+                    })
+                    .orElse(ResponseEntity.notFound().build());
     }
-
+    
+    
     @DeleteMapping("/{ubicacionId}")
     @Operation(summary = "Eliminar una ubicación", description = "Elimina una ubicación del sistema por su ID")
     @ApiResponses(value = {

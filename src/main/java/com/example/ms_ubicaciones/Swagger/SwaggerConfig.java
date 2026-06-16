@@ -11,9 +11,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API 2026 Reservas de salas")
-                        .version("1.0")
-                        .description("Documentación de la API para el sistema de reserva de salas"));
+                        .title("API Bodega y Ubicaciones")
+                        .description("Documentación de la API para el sistema de bodegas")
+                        .version("2.0"));
     }
 
 
