@@ -42,3 +42,4 @@ public class DataInitializer implements CommandLineRunner {
      log.info(">> Carga inicial finalizada con éxito.");
 }
 }
+
