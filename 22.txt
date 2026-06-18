@@ -1,3 +1,11 @@
+MS-BODEGA	=
+MS-CATEGORIAS	=
+MS-EGRESOS =
+MS-KARDEX =
+MS-PRODUCTOS	=
+MS-PROVEEDORES	=
+MS-USUARIOS =
+
 services:
 
   eureka-server:
@@ -64,10 +72,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_CATEGORIAS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -93,10 +97,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_PRODUCTOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -130,10 +130,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_BODEGA
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -159,10 +155,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_PROVEEDORES
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -194,10 +186,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_USUARIOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -223,10 +211,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_TRASLADOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -258,10 +242,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
       - PRODUCTO_SERVICE_URL=http://ms-productos:8082/api/productos
       - UBICACION_SERVICE_URL=http://ms-bodega:8085/api/ubicaciones
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -292,10 +272,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_INGRESOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -327,10 +303,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_EGRESOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
@@ -359,11 +331,8 @@ services:
       - JAVA_OPTS=-Xmx256m -Xms128m
       - TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
-      - SPRING_DATASOURCE_USERNAME=SCHEMA_AJUSTES
+      - SPRING_DATASOURCE_USERNAME=SCHEMA_AJUSTE
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-      - SPRING_JPA_SHOW_SQL=false
     volumes:
       - "C:/Users/usuario/Downloads/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
