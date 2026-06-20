@@ -39,15 +39,11 @@ class UbicacionServiceTest {
         ubicacion.setEmail("contacto@bodega.cl");
     }
 
-
     @Test
     void obtenerUbicaciones_exitoso_conDatos() {
-
         when(ubicacionRepository.findAll()).thenReturn(List.of(ubicacion));
 
-
         List<Ubicacion> resultado = ubicacionService.obtenerUbicaciones();
-
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
@@ -57,18 +53,14 @@ class UbicacionServiceTest {
 
     @Test
     void obtenerUbicaciones_vacio() {
-
         when(ubicacionRepository.findAll()).thenReturn(List.of());
 
-
         List<Ubicacion> resultado = ubicacionService.obtenerUbicaciones();
-
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
         verify(ubicacionRepository, times(1)).findAll();
     }
-
 
     @Test
     void obtenerPorId_exitoso() {
@@ -91,7 +83,6 @@ class UbicacionServiceTest {
         assertFalse(resultado.isPresent());
         verify(ubicacionRepository, times(1)).findById(99L);
     }
-
 
     @Test
     void guardar_ubicacionNueva_exitoso() {
@@ -130,7 +121,7 @@ class UbicacionServiceTest {
         ubicacionExistente.setPasillo("A-1");
         ubicacionExistente.setTelefono(123456789);
         ubicacionExistente.setRut("12.345.678-9");
-        ubicacionExistente.setActivo("INACTIVO"); // Cambio de estado
+        ubicacionExistente.setActivo("INACTIVO");
         ubicacionExistente.setEmail("contacto@bodega.cl");
 
         when(ubicacionRepository.save(any(Ubicacion.class))).thenReturn(ubicacionExistente);
@@ -143,23 +134,82 @@ class UbicacionServiceTest {
         verify(ubicacionRepository, times(1)).save(any(Ubicacion.class));
     }
 
+    @Test
+    void actualizar_exitoso() {
+        Ubicacion datosActualizados = new Ubicacion();
+        datosActualizados.setRazonSocial("Bodega Sur");
+        datosActualizados.setPasillo("C-3");
+        datosActualizados.setTelefono(111222333);
+        datosActualizados.setRut("11.122.233-4");
+        datosActualizados.setActivo("INACTIVO");
+        datosActualizados.setEmail("sur@bodega.cl");
+
+        Ubicacion ubicacionActualizada = new Ubicacion();
+        ubicacionActualizada.setUbicacionId(1L);
+        ubicacionActualizada.setRazonSocial("Bodega Sur");
+        ubicacionActualizada.setPasillo("C-3");
+        ubicacionActualizada.setTelefono(111222333);
+        ubicacionActualizada.setRut("11.122.233-4");
+        ubicacionActualizada.setActivo("INACTIVO");
+        ubicacionActualizada.setEmail("sur@bodega.cl");
+
+        when(ubicacionRepository.findById(1L)).thenReturn(Optional.of(ubicacion));
+        when(ubicacionRepository.save(any(Ubicacion.class))).thenReturn(ubicacionActualizada);
+
+        Optional<Ubicacion> resultado = ubicacionService.actualizar(1L, datosActualizados);
+
+        assertTrue(resultado.isPresent());
+        assertEquals("Bodega Sur", resultado.get().getRazonSocial());
+        assertEquals("C-3", resultado.get().getPasillo());
+        assertEquals("INACTIVO", resultado.get().getActivo());
+
+        verify(ubicacionRepository, times(1)).findById(1L);
+        verify(ubicacionRepository, times(1)).save(any(Ubicacion.class));
+    }
+
+    @Test
+    void actualizar_noEncontrado() {
+        Ubicacion datosActualizados = new Ubicacion();
+        datosActualizados.setRazonSocial("Bodega Sur");
+        datosActualizados.setPasillo("C-3");
+        datosActualizados.setTelefono(111222333);
+        datosActualizados.setRut("11.122.233-4");
+        datosActualizados.setActivo("INACTIVO");
+        datosActualizados.setEmail("sur@bodega.cl");
+
+        when(ubicacionRepository.findById(99L)).thenReturn(Optional.empty());
+
+        Optional<Ubicacion> resultado = ubicacionService.actualizar(99L, datosActualizados);
+
+        assertFalse(resultado.isPresent());
+        verify(ubicacionRepository, times(1)).findById(99L);
+        verify(ubicacionRepository, never()).save(any(Ubicacion.class));
+    }
 
     @Test
     void eliminar_exitoso() {
         Long idEliminar = 1L;
+
+        when(ubicacionRepository.existsById(idEliminar)).thenReturn(true);
         doNothing().when(ubicacionRepository).deleteById(idEliminar);
 
-        ubicacionService.eliminar(idEliminar);
+        boolean resultado = ubicacionService.eliminar(idEliminar);
 
+        assertTrue(resultado);
+        verify(ubicacionRepository, times(1)).existsById(idEliminar);
         verify(ubicacionRepository, times(1)).deleteById(idEliminar);
     }
 
     @Test
-    void eliminar_ubicacionInexistente_noLanzaExcepcion() {
+    void eliminar_ubicacionInexistente_retornaFalse() {
         Long idInexistente = 99L;
-        doNothing().when(ubicacionRepository).deleteById(idInexistente);
 
-        assertDoesNotThrow(() -> ubicacionService.eliminar(idInexistente));
-        verify(ubicacionRepository, times(1)).deleteById(idInexistente);
+        when(ubicacionRepository.existsById(idInexistente)).thenReturn(false);
+
+        boolean resultado = ubicacionService.eliminar(idInexistente);
+
+        assertFalse(resultado);
+        verify(ubicacionRepository, times(1)).existsById(idInexistente);
+        verify(ubicacionRepository, never()).deleteById(anyLong());
     }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 @Data
@@ -14,19 +15,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Categoria")
 public class Categoria {
+
+    @Schema(description = "Identificador único de la categoría", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoriaId;
 
+    @Schema(description = "Nombre de la categoría", example = "Herramientas")
     @NotBlank(message = "El nombre de la categoría es obligatorio")
     @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
+    @Schema(description = "Descripción de la categoría", example = "Herramientas para el trabajo")
     @Size(max = 255, message = "La descripción no puede exceder los 255 caracteres")
     @Column(name = "descripcion", length = 255)
     private String descripcion;
 
+    @Schema(description = "Estado de la categoría", example = "ACTIVO")
     @NotBlank(message = "El estado es obligatorio")
     @Column(name = "estado", nullable = false, length = 50)
     private String estado; //o activo 

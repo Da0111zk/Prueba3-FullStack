@@ -1,35 +1,46 @@
 package com.example.kardex.dto;
 
-import jakarta.validation.constraints.Min;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
+@Schema(description = "Datos de entrada para registrar o actualizar un movimiento de kardex")
 public class MovimientoRequestDTO {
 
-    @NotNull(message = "El ID de producto es obligatorio")
-    @Positive(message = "El ID de producto debe ser positivo")
+    @NotNull(message = "El productoId es obligatorio")
+    @Schema(description = "ID del producto", example = "1001", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long productoId;
 
-    @NotNull(message = "El ID de bodega es obligatorio")
-    @Positive(message = "El ID de bodega debe ser positivo")
+    @NotNull(message = "El bodegaId es obligatorio")
+    @Schema(description = "ID de la bodega", example = "2", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long bodegaId;
 
-    @NotNull(message = "La cantidad es obligatoria")
-    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
-    private Integer cantidad;
-
     @NotBlank(message = "El tipoMovimiento es obligatorio")
-    @Pattern(regexp = "INGRESO|EGRESO|AJUSTE", message = "tipoMovimiento debe ser INGRESO, EGRESO o AJUSTE")
+    @Schema(
+            description = "Tipo de movimiento",
+            example = "INGRESO",
+            allowableValues = {"INGRESO", "EGRESO", "AJUSTE"},
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
     private String tipoMovimiento;
 
-    @Pattern(regexp = "POSITIVO|NEGATIVO", message = "signo debe ser POSITIVO o NEGATIVO")
+    @Positive(message = "La cantidad debe ser mayor que 0")
+    @Schema(description = "Cantidad del movimiento", example = "10", requiredMode = Schema.RequiredMode.REQUIRED)
+    private int cantidad;
+
+    @Schema(
+            description = "Signo del ajuste, solo cuando tipoMovimiento es AJUSTE",
+            example = "POSITIVO",
+            allowableValues = {"POSITIVO", "NEGATIVO"},
+            nullable = true
+    )
     private String signo;
 
-    @Size(max = 100, message = "La referencia no puede exceder 100 caracteres")
+    @Size(max = 255, message = "La referencia no puede superar los 255 caracteres")
+    @Schema(description = "Referencia o comentario del movimiento", example = "Ingreso por compra OC-123")
     private String referencia;
 }

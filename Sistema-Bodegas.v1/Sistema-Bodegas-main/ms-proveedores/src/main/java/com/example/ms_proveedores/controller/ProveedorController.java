@@ -1,64 +1,99 @@
 package com.example.ms_proveedores.controller;
+
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.ms_proveedores.modelo.Proveedor;
 import com.example.ms_proveedores.service.ProveedorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RestController 
+@RestController
 @RequestMapping("/api/proveedores")
 @RequiredArgsConstructor
+@Tag(name = "Proveedores", description = "CRUD de proveedores")
 public class ProveedorController {
-    private final ProveedorService provedorService;
 
+    private final ProveedorService proveedorService;
+
+    @Operation(summary = "Listar proveedores")
+    @ApiResponse(responseCode = "200", description = "Listado obtenido correctamente")
     @GetMapping
-    public ResponseEntity<List<Proveedor>> obtenerProvedores() {
-        return ResponseEntity.ok(provedorService.obtenerProvedores());
+    public ResponseEntity<List<Proveedor>> obtenerProveedores() {
+        return ResponseEntity.ok(proveedorService.obtenerProveedores());
     }
 
+    @Operation(summary = "Obtener proveedor por ID")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Proveedor encontrado",
+            content = @Content(schema = @Schema(implementation = Proveedor.class))),
+    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado", content = @Content)
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<Proveedor> obtenerPorId(@PathVariable Long id) {
-        return provedorService.obtenerPorId(id)
+    public ResponseEntity<Proveedor> obtenerPorId(
+        @Parameter(description = "ID del proveedor", example = "1")
+        @PathVariable Long id) {
+        return proveedorService.obtenerPorId(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build()); 
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Crear proveedor")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Proveedor creado correctamente",
+            content = @Content(schema = @Schema(implementation = Proveedor.class))),
+        @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content)
+    })
     @PostMapping
-    public ResponseEntity<Proveedor> crear(@Valid @RequestBody Proveedor provedor){
-        Proveedor nuevo = provedorService.guardar(provedor);
-        return ResponseEntity.status(201).body(nuevo);
+    public ResponseEntity<Proveedor> crear(@Valid @RequestBody Proveedor proveedor) {
+        Proveedor nuevo = proveedorService.guardar(proveedor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
+    @Operation(summary = "Actualizar proveedor")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Proveedor actualizado correctamente",
+        content = @Content(schema = @Schema(implementation = Proveedor.class))),
+    @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content),
+    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado", content = @Content)
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<Proveedor> actualizar(@PathVariable Long id, @Valid @RequestBody Proveedor datos) {
-        return provedorService.obtenerPorId(id)
+    public ResponseEntity<Proveedor> actualizar(
+            @Parameter(description = "ID del proveedor", example = "1")
+            @PathVariable Long id,
+            @Valid @RequestBody Proveedor datos) {
+        return proveedorService.obtenerPorId(id)
                 .map(existente -> {
-                    datos.setProvedorId(id); 
-                    return ResponseEntity.ok(provedorService.guardar(datos));
+                    datos.setProveedorId(id);
+                    return ResponseEntity.ok(proveedorService.guardar(datos));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Eliminar proveedor")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "204", description = "Proveedor eliminado correctamente", content = @Content),
+    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado", content = @Content)
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        if (provedorService.obtenerPorId(id).isEmpty()) {
+    public ResponseEntity<Void> eliminar(
+            @Parameter(description = "ID del proveedor", example = "1")
+            @PathVariable Long id) {
+        if (proveedorService.obtenerPorId(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        provedorService.eliminar(id);
-        return ResponseEntity.noContent().build(); 
+        proveedorService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
-
-    
 }

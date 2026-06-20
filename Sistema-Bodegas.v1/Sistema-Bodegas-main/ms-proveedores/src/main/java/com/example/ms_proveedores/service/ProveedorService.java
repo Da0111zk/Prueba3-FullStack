@@ -13,21 +13,22 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProveedorService {
-    private final ProveedorRepository provedorRepository;
 
-    public List<Proveedor> obtenerProvedores() {
-        return provedorRepository.findAll();
+    private final ProveedorRepository proveedorRepository;
+
+    public List<Proveedor> obtenerProveedores() {
+        return proveedorRepository.findAll();
     }
 
     public Optional<Proveedor> obtenerPorId(Long id) {
-        return provedorRepository.findById(id);
+        return proveedorRepository.findById(id);
     }
 
-    public Proveedor guardar(Proveedor  provedor) {
-        return provedorRepository.save(provedor);
+    public Proveedor guardar(Proveedor proveedor) {
+        return proveedorRepository.save(proveedor);
     }
 
     public void eliminar(Long id) {
-        provedorRepository.deleteById(id);
+        proveedorRepository.deleteById(id);
     }
 }

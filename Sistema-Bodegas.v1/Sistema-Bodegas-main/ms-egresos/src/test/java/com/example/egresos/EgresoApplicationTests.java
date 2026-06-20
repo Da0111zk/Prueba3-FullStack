@@ -1,10 +1,10 @@
-package com.example.ms_traslados;
+package com.example.egresos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsTrasladosApplicationTests {
+class EgresoApplicationTests {
 
 	@Test
 	void contextLoads() {

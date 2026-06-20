@@ -1,10 +1,10 @@
-package com.example.ms_stock;
+package com.example.traslados;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsStockApplicationTests {
+class MsTrasladosApplicationTests {
 
 	@Test
 	void contextLoads() {

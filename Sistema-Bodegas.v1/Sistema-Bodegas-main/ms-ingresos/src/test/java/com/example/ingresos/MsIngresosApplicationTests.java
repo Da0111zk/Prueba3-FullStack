@@ -1,13 +1,12 @@
-package com.example.ms_provedores;
+package com.example.ingresos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsProveedoresApplicationTests {
+class MsIngresosApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }
