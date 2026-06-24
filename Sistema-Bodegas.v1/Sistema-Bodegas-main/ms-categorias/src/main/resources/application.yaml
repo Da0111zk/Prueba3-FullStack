@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ms-categorias
+  datasource:
+    url: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=${TNS_ADMIN:/wallet}
+    username: SCHEMA_CATEGORIAS
+    password: FullStack-Bodega1
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Configuración de documentación con Swagger / OpenApi
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+# Integración con el Servidor de Descubrimiento Eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://eureka-server:8761/eureka/}

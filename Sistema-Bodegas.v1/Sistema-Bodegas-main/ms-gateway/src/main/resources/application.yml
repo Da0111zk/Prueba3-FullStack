@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: ms-gateway
+  # 🔽 Esto evita que el Gateway falle buscando una base de datos inexistente
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   cloud:
     gateway:
       discovery:
