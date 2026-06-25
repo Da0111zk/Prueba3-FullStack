@@ -1,0 +1,206 @@
+services:
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_APPLICATION_NAME=eureka-server
+      - EUREKA_CLIENT_REGISTERWITHEUREKA=false
+      - EUREKA_CLIENT_FETCHREGISTRY=false
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8761/actuator/health | grep UP || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+  ms-gateway:
+    build:
+      context: ./ms-gateway
+      dockerfile: Dockerfile
+    container_name: ms-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_APPLICATION_NAME=ms-gateway
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=false
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - bodega-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep UP || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+
+  ms-categorias:
+    build:
+      context: ./ms-categorias
+      dockerfile: Dockerfile
+    container_name: ms-categorias
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_APPLICATION_NAME=ms-categorias
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_ms_categorias
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+  ms-productos:
+    build:
+      context: ./ms-productos
+      dockerfile: Dockerfile
+    container_name: ms-productos
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_APPLICATION_NAME=ms-productos
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_ms_productos
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      ms-categorias:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8082/actuator/health | grep UP || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+  ms-bodega:
+    build:
+      context: ./ms-bodega
+      dockerfile: Dockerfile
+    container_name: ms-bodega
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_APPLICATION_NAME=ms-bodega
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_bodega
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+  ms-proveedores:
+    build:
+      context: ./ms-proveedores
+      dockerfile: Dockerfile
+    container_name: ms-proveedores
+    ports:
+      - "8089:8089"
+    environment:
+      - SPRING_APPLICATION_NAME=ms-proveedores
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_ms_proveedores
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8089/actuator/health | grep UP || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+  ms-kardex:
+    build:
+      context: ./ms-kardex
+      dockerfile: Dockerfile
+    container_name: ms-kardex
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_APPLICATION_NAME=ms-kardex
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_ms_kardex
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+      - PRODUCTO_SERVICE_URL=http://ms-productos:8082/api/productos
+      - UBICACION_SERVICE_URL=http://ms-bodega:8085/api/ubicaciones
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      ms-productos:
+        condition: service_started
+      ms-bodega:
+        condition: service_started
+    networks:
+      - bodega-network
+    restart: unless-stopped
+
+networks:
+  bodega-network:
+    driver: bridge
+    name: bodega-network
+    driver_opts:
+      com.docker.network.bridge.name: "bodega-network"

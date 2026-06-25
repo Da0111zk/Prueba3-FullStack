@@ -1,0 +1,19 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    # Indica que este microservicio NO se debe registrar a sí mismo como cliente
+    register-with-eureka: false
+    # Indica que no necesita descargar el registro de otros servicios al arrancar
+    fetch-registry: false
+    service-url:
+      # URL base local donde correrá el panel de control de Eureka
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    # Forzar a Eureka a preferir usar direcciones IP en lugar de nombres de dominio internos
+    prefer-ip-address: true

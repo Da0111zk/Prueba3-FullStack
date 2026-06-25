@@ -1,0 +1,52 @@
+spring.cloud.compatibility-verifier.enabled: false
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ms-kardex
+          uri: lb://MS-KARDEX
+          predicates:
+            - Path=/api/kardex,/api/kardex/**
+
+        - id: ms-categorias
+          uri: lb://MS-CATEGORIAS
+          predicates:
+            - Path=/api/categorias,/api/categorias/**
+
+        - id: ms-productos
+          uri: lb://MS-PRODUCTOS
+          predicates:
+            - Path=/api/productos,/api/productos/**
+
+        - id: ms-bodega
+          uri: lb://MS-BODEGAS
+          predicates:
+            - Path=/api/ubicaciones,/api/ubicaciones/**
+
+        - id: ms-proveedores
+          uri: lb://MS-PROVEDORES
+          predicates:
+            - Path=/api/proveedores,/api/proveedores/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
