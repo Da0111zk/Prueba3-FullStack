@@ -27,7 +27,7 @@ envVarGroups:
 
 services:
   # ============================================
-  # 1. EUREKA SERVER (Puerto 8761)
+  # 1. EUREKA SERVER
   # ============================================
   - type: web
     name: eureka-server
@@ -49,7 +49,7 @@ services:
         value: -Xmx384m -Xms128m
 
   # ============================================
-  # 2. API GATEWAY (Puerto 8080)
+  # 2. API GATEWAY
   # ============================================
   - type: web
     name: ms-gateway
@@ -70,7 +70,21 @@ services:
   # ============================================
   # 3. MICROSERVICIOS DE NEGOCIO
   # ============================================
-  
+  - type: web
+    name: ms-usuarios
+    runtime: docker
+    plan: free
+    rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-usuarios
+    envVars:
+      - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
+      - key: SPRING_APPLICATION_NAME
+        value: ms-usuarios
+      - key: SERVER_PORT
+        value: "8090"
+      - key: SPRING_DATASOURCE_USERNAME
+        value: SCHEMA_USUARIOS
+
   - type: web
     name: ms-categorias
     runtime: docker
@@ -115,21 +129,6 @@ services:
         value: "8093"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_PROVEEDORES
-
-  - type: web
-    name: ms-usuarios
-    runtime: docker
-    plan: free
-    rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-usuarios
-    envVars:
-      - fromGroup: oracle-wallet-shared
-      - fromGroup: eureka-config
-      - key: SPRING_APPLICATION_NAME
-        value: ms-usuarios
-      - key: SERVER_PORT
-        value: "8090"
-      - key: SPRING_DATASOURCE_USERNAME
-        value: SCHEMA_USUARIOS
 
   - type: web
     name: ms-producto

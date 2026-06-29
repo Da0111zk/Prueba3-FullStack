@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: ms-gateway
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   cloud:
     gateway:
       discovery:
@@ -13,50 +11,70 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: ms-kardex
-          uri: lb://ms-kardex 
+        - id: ms-usuarios
+          uri: lb://ms-usuarios
           predicates:
-            - Path=/api/kardex,/api/kardex/**
+            - Path=/api/usuarios/**
           filters:
             - name: CircuitBreaker
               args:
-                name: kardexCB
-                fallbackUri: forward:/fallback/kardex
+                name: usuariosCB
+                fallbackUri: forward:/fallback/usuarios
 
         - id: ms-categorias
-          uri: lb://ms-categorias 
+          uri: lb://ms-categorias
           predicates:
-            - Path=/api/categorias,/api/categorias/**
+            - Path=/api/categorias/**
           filters:
             - name: CircuitBreaker
               args:
                 name: categoriasCB
                 fallbackUri: forward:/fallback/categorias
 
-        - id: ms-producto
-          uri: lb://ms-producto
-          predicates:
-            - Path=/api/productos,/api/productos/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: productoCB
-                fallbackUri: forward:/fallback/producto
-
         - id: ms-bodega
-          uri: lb://ms-bodega 
+          uri: lb://ms-bodega
           predicates:
-            - Path=/api/ubicaciones,/api/ubicaciones/**
+            - Path=/api/ubicaciones/**
           filters:
             - name: CircuitBreaker
               args:
                 name: bodegaCB
                 fallbackUri: forward:/fallback/bodega
 
+        - id: ms-proveedores
+          uri: lb://ms-proveedores
+          predicates:
+            - Path=/api/proveedores/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: proveedoresCB
+                fallbackUri: forward:/fallback/proveedores
+
+        - id: ms-producto
+          uri: lb://ms-producto
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productoCB
+                fallbackUri: forward:/fallback/producto
+
+        - id: ms-kardex
+          uri: lb://ms-kardex
+          predicates:
+            - Path=/api/kardex/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: kardexCB
+                fallbackUri: forward:/fallback/kardex
+
         - id: ms-ingresos
           uri: lb://ms-ingresos
           predicates:
-            - Path=/api/ingresos,/api/ingresos/**
+            - Path=/api/ingresos/**
           filters:
             - name: CircuitBreaker
               args:
@@ -64,9 +82,9 @@ spring:
                 fallbackUri: forward:/fallback/ingresos
 
         - id: ms-egresos
-          uri: lb://ms-egresos 
+          uri: lb://ms-egresos
           predicates:
-            - Path=/api/egresos,/api/egresos/**
+            - Path=/api/egresos/**
           filters:
             - name: CircuitBreaker
               args:
@@ -76,7 +94,7 @@ spring:
         - id: ms-ajuste
           uri: lb://ms-ajuste
           predicates:
-            - Path=/api/ajustes,/api/ajustes/**
+            - Path=/api/ajustes/**
           filters:
             - name: CircuitBreaker
               args:
@@ -86,32 +104,12 @@ spring:
         - id: ms-traslados
           uri: lb://ms-traslados
           predicates:
-            - Path=/api/traslados,/api/traslados/**
+            - Path=/api/traslados/**
           filters:
             - name: CircuitBreaker
               args:
                 name: trasladosCB
                 fallbackUri: forward:/fallback/traslados
-
-        - id: ms-usuarios
-          uri: lb://ms-usuarios
-          predicates:
-            - Path=/api/usuarios,/api/usuarios/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: usuariosCB
-                fallbackUri: forward:/fallback/usuarios
-
-        - id: ms-proveedores
-          uri: lb://ms-proveedores
-          predicates:
-            - Path=/api/proveedores,/api/proveedores/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: proveedoresCB
-                fallbackUri: forward:/fallback/proveedores
 
 eureka:
   client:
@@ -132,8 +130,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,gateway
   endpoint:
+    gateway:
+      enabled: true
     health:
       show-details: always
 
