@@ -49,3 +49,10 @@ management:
     web:
       exposure:
         include: health,info
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  health:
+    eureka:
+      enabled: true
