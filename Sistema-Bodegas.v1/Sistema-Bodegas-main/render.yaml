@@ -11,6 +11,8 @@ services:
         value: "false"
       - key: EUREKA_CLIENT_FETCHREGISTRY
         value: "false"
+      - key: EUREKA_SERVER_ENABLE_SELF_PRESERVATION
+        value: "false"
       - key: SERVER_PORT
         value: "8080"
       - key: JAVA_OPTS
