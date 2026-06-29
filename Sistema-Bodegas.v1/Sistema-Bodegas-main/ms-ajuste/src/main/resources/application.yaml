@@ -20,14 +20,12 @@ spring:
       hibernate:
         format_sql: true
 
-# Variables dinámicas para URLs de microservicios
 ms:
   productos:
     url: ${MS_PRODUCTOS_URL:http://ms-productos:8082}
   kardex:
     url: ${MS_KARDEX_URL:http://ms-kardex:8086}
 
-# Configuración de documentación con Swagger / OpenApi
 springdoc:
   api-docs:
     path: /api-docs
@@ -35,7 +33,6 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
 
-# Integración con el Servidor de Descubrimiento Eureka
 eureka:
   client:
     service-url:
