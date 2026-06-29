@@ -176,6 +176,8 @@ services:
         value: SCHEMA_TRASLADOS
       - key: MS_PRODUCTOS_URL
         value: https://ms-producto.onrender.com
+      - key: MS_UBICACIONES_URL
+        value: https://ms-bodega.onrender.com
       - key: MS_BODEGA_URL
         value: https://ms-bodega.onrender.com
 
