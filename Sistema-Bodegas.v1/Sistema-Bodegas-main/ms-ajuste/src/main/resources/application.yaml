@@ -57,6 +57,3 @@ management:
     health:
       show-details: always
       show-components: always
-  health:
-    eureka:
-      enabled: true
