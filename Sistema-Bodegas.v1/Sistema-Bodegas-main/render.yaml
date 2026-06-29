@@ -25,9 +25,9 @@ services:
       - key: SPRING_APPLICATION_NAME
         value: ms-gateway
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-        value: https://eureka-server.onrender.com/eureka/
+        value: https://eureka-server.onrender.com/eureka
       - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-        value: "true"
+        value: "false"
       - key: SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED
         value: "false"
       - key: SERVER_PORT
@@ -184,10 +184,11 @@ services:
 envVarGroups:
   - name: oracle-wallet-shared
     envVars:
+      # CORRECCIÓN DE COMUNICACIÓN PERIMETRAL EUREKA
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-        value: https://eureka-server.onrender.com/eureka/
+        value: https://eureka-server.onrender.com/eureka
       - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-        value: "true"
+        value: "false"
       - key: SERVER_PORT
         value: "8080"
       - key: TNS_ADMIN
