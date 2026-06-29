@@ -21,7 +21,7 @@ envVarGroups:
   - name: eureka-config
     envVars:
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-        value: http://eureka-server:8761/eureka
+        value: https://eureka-server-ccfr.onrender.com/eureka
       - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
         value: "true"
 
