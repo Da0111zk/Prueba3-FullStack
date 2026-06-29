@@ -7,12 +7,16 @@ spring:
   application:
     name: ms-bodega
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/etc/secrets}
+    url: ${SPRING_DATASOURCE_URL:jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/app/wallet}
     username: ${SPRING_DATASOURCE_USERNAME:SCHEMA_BODEGA}
     password: ${SPRING_DATASOURCE_PASSWORD:FullStack-Bodega1}
     driver-class-name: oracle.jdbc.OracleDriver
     hikari:
       maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
