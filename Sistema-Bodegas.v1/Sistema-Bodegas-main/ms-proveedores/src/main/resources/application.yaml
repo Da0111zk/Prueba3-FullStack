@@ -7,20 +7,21 @@ spring:
   application:
     name: ms-proveedores
   datasource:
-    url: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-proveedores/src/main/resources/wallet
-    username: SCHEMA_PROVEEDORES
-    password: FullStack-Bodega1
+    url: ${SPRING_DATASOURCE_URL:jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/etc/secrets}
+    username: ${SPRING_DATASOURCE_USERNAME:SCHEMA_PROVEEDORES}
+    password: ${SPRING_DATASOURCE_PASSWORD:FullStack-Bodega1}
     driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE:2}
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
     properties:
       hibernate:
         format_sql: true
 
-# Configuración de documentación con Swagger / OpenApi
 springdoc:
   api-docs:
     path: /api-docs
@@ -28,10 +29,9 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
 
-# Integración con el Servidor de Descubrimiento Eureka
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
     service-url:
-      defaultZone: ${EUREKA_URL:http://eureka-server:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_PREFER_IP_ADDRESS:true}
