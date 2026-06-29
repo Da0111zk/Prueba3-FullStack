@@ -7,7 +7,7 @@ spring:
   application:
     name: ms-proveedores
   datasource:
-    url: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=${TNS_ADMIN:/wallet}
+    url: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-proveedores/src/main/resources/wallet
     username: SCHEMA_PROVEEDORES
     password: FullStack-Bodega1
     driver-class-name: oracle.jdbc.OracleDriver

@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
 
   eureka-server:
@@ -64,12 +66,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_CATEGORIAS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -93,12 +94,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_PRODUCTOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -130,12 +130,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_BODEGA
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -159,12 +158,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_PROVEEDORES
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -194,12 +192,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_USUARIOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -223,18 +220,17 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_TRASLADOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
       ms-productos:
         condition: service_started
-      ms-bodega:
+      ms-bodega: # <-- Vuelve a llamarse ms-bodega de forma correcta
         condition: service_started
     networks:
       - bodega-network
@@ -257,19 +253,18 @@ services:
       - SPRING_DATASOURCE_USERNAME=SCHEMA_KARDEX
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
       - PRODUCTO_SERVICE_URL=http://ms-productos:8082/api/productos
-      - UBICACION_SERVICE_URL=http://ms-bodega:8085/api/ubicaciones
-      # 🔽 Ajuste de pool de conexiones
+      - UBICACION_SERVICE_URL=http://ms-bodega:8085/api/ubicaciones # <-- Vuelve a apuntar al host ms-bodega
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
       ms-productos:
         condition: service_started
-      ms-bodega:
+      ms-bodega: # <-- Vuelve a llamarse ms-bodega de forma correcta
         condition: service_started
     networks:
       - bodega-network
@@ -291,12 +286,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_INGRESOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -326,12 +320,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/wallet
       - SPRING_DATASOURCE_USERNAME=SCHEMA_EGRESOS
       - SPRING_DATASOURCE_PASSWORD=FullStack-Bodega1
-      # 🔽 Ajuste de pool de conexiones
       - SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE=2
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -363,7 +356,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING_JPA_SHOW_SQL=false
     volumes:
-      - "C:/Users/SSDD/Downloads/Prueba3-FullStack/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
+      - "C:/Users/usuario/Downloads/Sistema-Bodegas.v1.2.3/Wallet_MMG8HVEWK688YRH4:/wallet:ro"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -381,5 +374,3 @@ networks:
     name: bodega-network
     driver_opts:
       com.docker.network.bridge.name: "bodega-network"
-
-      ##como el api se conecta a su microservicio

@@ -1,13 +1,14 @@
-package ms.gateway.gateway;
-
+package ms.gateway.gateway; 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.bodega.gateway.MsGatewayApplication; 
 
-@SpringBootTest
+@SpringBootTest(classes = MsGatewayApplication.class)
 class GatewayApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+
+    }
 
 }

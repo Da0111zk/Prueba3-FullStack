@@ -1,8 +1,14 @@
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+COPY --from=build /app/target/*.jar app.jar
 
-
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Doracle.net.tns_admin=/wallet -jar /app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
