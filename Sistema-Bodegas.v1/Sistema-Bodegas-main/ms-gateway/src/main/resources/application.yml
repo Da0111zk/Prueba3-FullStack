@@ -10,71 +10,133 @@ spring:
     gateway:
       discovery:
         locator:
-          # Permite que busque servicios registrados en Eureka
           enabled: true
           lower-case-service-id: true
       routes:
         - id: ms-kardex
-          uri: lb://MS-KARDEX # Usa balanceo de carga dinámico vía Eureka
+          uri: lb://ms-kardex 
           predicates:
             - Path=/api/kardex,/api/kardex/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: kardexCB
+                fallbackUri: forward:/fallback/kardex
 
         - id: ms-categorias
-          uri: lb://MS-CATEGORIAS
+          uri: lb://ms-categorias 
           predicates:
             - Path=/api/categorias,/api/categorias/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: categoriasCB
+                fallbackUri: forward:/fallback/categorias
 
         - id: ms-producto
-          uri: lb://MS-PRODUCTO
+          uri: lb://ms-producto
           predicates:
             - Path=/api/productos,/api/productos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productoCB
+                fallbackUri: forward:/fallback/producto
 
         - id: ms-bodega
-          uri: lb://MS-BODEGA
+          uri: lb://ms-bodega 
           predicates:
             - Path=/api/ubicaciones,/api/ubicaciones/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bodegaCB
+                fallbackUri: forward:/fallback/bodega
 
         - id: ms-ingresos
-          uri: lb://MS-INGRESOS
+          uri: lb://ms-ingresos
           predicates:
             - Path=/api/ingresos,/api/ingresos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ingresosCB
+                fallbackUri: forward:/fallback/ingresos
 
         - id: ms-egresos
-          uri: lb://MS-EGRESOS
+          uri: lb://ms-egresos 
           predicates:
             - Path=/api/egresos,/api/egresos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: egresosCB
+                fallbackUri: forward:/fallback/egresos
 
         - id: ms-ajuste
-          uri: lb://MS-AJUSTE
+          uri: lb://ms-ajuste
           predicates:
             - Path=/api/ajustes,/api/ajustes/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ajusteCB
+                fallbackUri: forward:/fallback/ajuste
 
         - id: ms-traslados
-          uri: lb://MS-TRASLADOS
+          uri: lb://ms-traslados
           predicates:
             - Path=/api/traslados,/api/traslados/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: trasladosCB
+                fallbackUri: forward:/fallback/traslados
 
         - id: ms-usuarios
-          uri: lb://MS-USUARIOS
+          uri: lb://ms-usuarios
           predicates:
             - Path=/api/usuarios,/api/usuarios/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: usuariosCB
+                fallbackUri: forward:/fallback/usuarios
 
         - id: ms-proveedores
-          uri: lb://MS-PROVEEDORES
+          uri: lb://ms-proveedores
           predicates:
             - Path=/api/proveedores,/api/proveedores/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: proveedoresCB
+                fallbackUri: forward:/fallback/proveedores
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
     register-with-eureka: true
     fetch-registry: true
+    enabled: true
+    healthcheck:
+      enabled: true
   instance:
     prefer-ip-address: ${EUREKA_INSTANCE_PREFER_IP_ADDRESS:true}
+    instance-id: ${spring.application.name}:${random.value}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+spring.cloud.gateway.httpclient:
+  connect-timeout: 10000
+  response-timeout: 30s

@@ -1,4 +1,34 @@
+envVarGroups:
+  - name: oracle-wallet-shared
+    envVars:
+      - key: TNS_ADMIN
+        value: /app/wallet
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/app/wallet
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: FullStack-Bodega1
+      - key: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
+        value: "2"
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: none
+      - key: SPRING_JPA_SHOW_SQL
+        value: "false"
+      - key: JAVA_OPTS
+        value: -Xmx384m -Xms128m
+      - key: WALLET_BASE64
+        value: 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
+
+  - name: eureka-config
+    envVars:
+      - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+        value: http://eureka-server:8761/eureka
+      - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+        value: "true"
+
 services:
+  # ============================================
+  # 1. EUREKA SERVER (Puerto 8761)
+  # ============================================
   - type: web
     name: eureka-server
     runtime: docker
@@ -7,36 +37,40 @@ services:
     envVars:
       - key: SPRING_APPLICATION_NAME
         value: eureka-server
+      - key: SERVER_PORT
+        value: "8761"
       - key: EUREKA_CLIENT_REGISTERWITHEUREKA
         value: "false"
       - key: EUREKA_CLIENT_FETCHREGISTRY
         value: "false"
       - key: EUREKA_SERVER_ENABLE_SELF_PRESERVATION
         value: "false"
-      - key: SERVER_PORT
-        value: "8080"
       - key: JAVA_OPTS
         value: -Xmx384m -Xms128m
 
+  # ============================================
+  # 2. API GATEWAY (Puerto 8080)
+  # ============================================
   - type: web
     name: ms-gateway
     runtime: docker
     plan: free
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-gateway
     envVars:
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-gateway
-      - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-        value: https://eureka-server.onrender.com/
-      - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-        value: "true"
-      - key: SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED
-        value: "true"
       - key: SERVER_PORT
         value: "8080"
+      - key: SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED
+        value: "true"
       - key: JAVA_OPTS
         value: -Xmx384m -Xms128m
 
+  # ============================================
+  # 3. MICROSERVICIOS DE NEGOCIO
+  # ============================================
+  
   - type: web
     name: ms-categorias
     runtime: docker
@@ -44,8 +78,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-categorias
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-categorias
+      - key: SERVER_PORT
+        value: "8091"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_CATEGORIAS
 
@@ -56,8 +93,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-bodega
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-bodega
+      - key: SERVER_PORT
+        value: "8092"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_BODEGA
 
@@ -68,8 +108,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-proveedores
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-proveedores
+      - key: SERVER_PORT
+        value: "8093"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_PROVEEDORES
 
@@ -80,8 +123,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-usuarios
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-usuarios
+      - key: SERVER_PORT
+        value: "8090"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_USUARIOS
 
@@ -92,8 +138,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-producto
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-producto
+      - key: SERVER_PORT
+        value: "8094"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_PRODUCTO
       - key: MS_CATEGORIAS_URL
@@ -106,8 +155,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-kardex
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-kardex
+      - key: SERVER_PORT
+        value: "8095"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_KARDEX
       - key: MS_PRODUCTOS_URL
@@ -120,8 +172,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-ingresos
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-ingresos
+      - key: SERVER_PORT
+        value: "8096"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_INGRESOS
       - key: MS_PRODUCTOS_URL
@@ -140,8 +195,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-egresos
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-egresos
+      - key: SERVER_PORT
+        value: "8097"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_EGRESOS
       - key: MS_PRODUCTOS_URL
@@ -156,8 +214,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-ajuste
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-ajuste
+      - key: SERVER_PORT
+        value: "8098"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_AJUSTES
       - key: MS_PRODUCTOS_URL
@@ -172,8 +233,11 @@ services:
     rootDir: Sistema-Bodegas.v1/Sistema-Bodegas-main/ms-traslados
     envVars:
       - fromGroup: oracle-wallet-shared
+      - fromGroup: eureka-config
       - key: SPRING_APPLICATION_NAME
         value: ms-traslados
+      - key: SERVER_PORT
+        value: "8099"
       - key: SPRING_DATASOURCE_USERNAME
         value: SCHEMA_TRASLADOS
       - key: MS_PRODUCTOS_URL
@@ -182,31 +246,3 @@ services:
         value: https://ms-bodega.onrender.com
       - key: MS_BODEGA_URL
         value: https://ms-bodega.onrender.com
-
-envVarGroups:
-  - name: oracle-wallet-shared
-    envVars:
-      # URL DEFINITIVA PARA TODO EL GRUPO: Apuntando a la raíz con la barra final '/'
-      - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-        value: https://eureka-server.onrender.com/
-      
-      - key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-        value: "true"
-      - key: SERVER_PORT
-        value: "8080"
-      - key: TNS_ADMIN
-        value: /app/wallet 
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:oracle:thin:@mmg8hvewk688yrh4_low?TNS_ADMIN=/app/wallet 
-      - key: SPRING_DATASOURCE_PASSWORD
-        value: FullStack-Bodega1
-      - key: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
-        value: "2"
-      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-        value: none
-      - key: SPRING_JPA_SHOW_SQL
-        value: "false"
-      - key: JAVA_OPTS
-        value: -Xmx384m -Xms128m
-      - key: WALLET_BASE64
-        value: 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
