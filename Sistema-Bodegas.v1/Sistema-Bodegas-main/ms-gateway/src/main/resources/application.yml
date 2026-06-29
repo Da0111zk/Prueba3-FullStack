@@ -4,71 +4,74 @@ server:
 spring:
   application:
     name: ms-gateway
-  # 🔽 Esto evita que el Gateway falle buscando una base de datos inexistente
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: false
+          # Permite que busque servicios registrados en Eureka
+          enabled: true
+          lower-case-service-id: true
       routes:
         - id: ms-kardex
-          uri: http://ms-kardex:8086
+          uri: lb://MS-KARDEX # Usa balanceo de carga dinámico vía Eureka
           predicates:
             - Path=/api/kardex,/api/kardex/**
 
         - id: ms-categorias
-          uri: http://ms-categorias:8081
+          uri: lb://MS-CATEGORIAS
           predicates:
             - Path=/api/categorias,/api/categorias/**
 
-        - id: ms-productos
-          uri: http://ms-productos:8082
+        - id: ms-producto
+          uri: lb://MS-PRODUCTO
           predicates:
             - Path=/api/productos,/api/productos/**
 
         - id: ms-bodega
-          uri: http://ms-bodega:8085
+          uri: lb://MS-BODEGA
           predicates:
             - Path=/api/ubicaciones,/api/ubicaciones/**
 
         - id: ms-ingresos
-          uri: http://ms-ingresos:8084
+          uri: lb://MS-INGRESOS
           predicates:
             - Path=/api/ingresos,/api/ingresos/**
 
         - id: ms-egresos
-          uri: http://ms-egresos:8083
+          uri: lb://MS-EGRESOS
           predicates:
             - Path=/api/egresos,/api/egresos/**
 
         - id: ms-ajuste
-          uri: http://ms-ajuste:8088
+          uri: lb://MS-AJUSTE
           predicates:
             - Path=/api/ajustes,/api/ajustes/**
 
         - id: ms-traslados
-          uri: http://ms-traslados:8087
+          uri: lb://MS-TRASLADOS
           predicates:
             - Path=/api/traslados,/api/traslados/**
 
         - id: ms-usuarios
-          uri: http://ms-usuarios:8090
+          uri: lb://MS-USUARIOS
           predicates:
             - Path=/api/usuarios,/api/usuarios/**
 
         - id: ms-proveedores
-          uri: http://ms-proveedores:8089
+          uri: lb://MS-PROVEEDORES
           predicates:
             - Path=/api/proveedores,/api/proveedores/**
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL:http://eureka-server:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: ${EUREKA_INSTANCE_PREFER_IP_ADDRESS:true}
 
 management:
   endpoints:
