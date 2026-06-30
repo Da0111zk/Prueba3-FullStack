@@ -43,7 +43,8 @@ eureka:
     healthcheck:
       enabled: true
   instance:
-    prefer-ip-address: ${EUREKA_INSTANCE_PREFER_IP_ADDRESS:true}
+    prefer-ip-address: false
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:ms-usuarios.onrender.com}
     instance-id: ${spring.application.name}:${random.value}
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30

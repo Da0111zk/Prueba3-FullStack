@@ -1,0 +1,6 @@
+GET	https://ms-gateway-k273.onrender.com/api/kardex/movimientos	Listar todos los movimientos
+GET	https://ms-gateway-k273.onrender.com/api/kardex/movimientos/{id}	Obtener un movimiento por ID (ej: /1)
+GET	https://ms-gateway-k273.onrender.com/api/kardex/stock/producto/{productoId}/bodega/{bodegaId}	Consultar stock (ej: /producto/100/bodega/1)
+POST	https://ms-gateway-k273.onrender.com/api/kardex/movimientos	Registrar un nuevo movimiento
+PUT	https://ms-gateway-k273.onrender.com/api/kardex/movimientos/{id}	Actualizar un movimiento por ID (ej: /1)
+DELETE	https://ms-gateway-k273.onrender.com/api/kardex/movimientos/{id}	Eliminar un movimiento por ID (ej: /1)
