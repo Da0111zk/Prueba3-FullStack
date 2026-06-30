@@ -1,5 +1,5 @@
-GET,https://ms-gateway-k273.onrender.com/api/categorias,Listar todas las categorías
-GET,https://ms-gateway-k273.onrender.com/api/categorias/{id},Buscar una categoría por ID (ej: /1)
-POST,https://ms-gateway-k273.onrender.com/api/categorias,Crear una nueva categoría
-PUT,https://ms-gateway-k273.onrender.com/api/categorias/{id},Actualizar una categoría por ID (ej: /1)
-DELETE,https://ms-gateway-k273.onrender.com/api/categorias/{id},Eliminar una categoría por ID (ej: /1)
+GET https://ms-gateway-k273.onrender.com/api/categorias Listar todas las categorías
+GET https://ms-gateway-k273.onrender.com/api/categorias/{id} Buscar una categoría por ID (ej: /1)
+POST https://ms-gateway-k273.onrender.com/api/categorias Crear una nueva categoría
+PUT https://ms-gateway-k273.onrender.com/api/categorias/{id} Actualizar una categoría por ID (ej: /1)
+DELETE https://ms-gateway-k273.onrender.com/api/categorias/{id} Eliminar una categoría por ID (ej: /1)
