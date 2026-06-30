@@ -154,7 +154,7 @@ services:
       - key: SERVER_PORT
         value: "8094"
       - key: SPRING_DATASOURCE_USERNAME
-        value: SCHEMA_PRODUCTO
+        value: SCHEMA_PRODUCTOS
       - key: MS_CATEGORIAS_URL
         value: https://ms-categorias.onrender.com
 
