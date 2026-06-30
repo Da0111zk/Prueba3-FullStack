@@ -42,7 +42,7 @@ eureka:
     enabled: true
     healthcheck:
       enabled: true
-  instance:
+instance:
     prefer-ip-address: false
     hostname: ${EUREKA_INSTANCE_HOSTNAME:ms-usuarios.onrender.com}
     instance-id: ${spring.application.name}:${random.value}

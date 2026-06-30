@@ -1,0 +1,5 @@
+GET,https://ms-gateway-k273.onrender.com/api/productos,Listar todos los productos registrados
+GET,https://ms-gateway-k273.onrender.com/api/productos/{id},Buscar un producto por su ID (ej: /1)
+POST,https://ms-gateway-k273.onrender.com/api/productos,Crear un nuevo producto
+PUT,https://ms-gateway-k273.onrender.com/api/productos/{id},Actualizar un producto por su ID (ej: /1)
+DELETE,https://ms-gateway-k273.onrender.com/api/productos/{id},Eliminar un producto por su ID (ej: /1)
