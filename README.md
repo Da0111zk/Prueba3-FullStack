@@ -153,3 +153,6 @@ ms-<nombre>/
 ├── src/test/java/.../     # Tests JUnit 5 + Mockito
 └── Dockerfile              # Build multi-stage (Maven → JRE)
 ```
+Proyecto de prueba elaborado por:
+Daniel Azocar
+Angelica Araya
