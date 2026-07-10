@@ -153,9 +153,43 @@ ms-<nombre>/
 ├── src/test/java/.../     # Tests JUnit 5 + Mockito
 └── Dockerfile              # Build multi-stage (Maven → JRE)
 ```
-Proyecto de prueba elaborado por:
 
-Daniel Azocar
+## Rutas Swagger via Render
+| Ruta | Servicio |
+|---|---|
+| `https://ms-usuarios.onrender.com/swagger-ui.html` | ms-usuarios|
+| `https://ms-categorias.onrender.com/swagger-ui.html` | ms-categorias|
+| `https://ms-bodega.onrender.com/swagger-ui.html` | ms-bodega|
+| `https://ms-proveedores.onrender.com/swagger-ui.html` | ms-proveedores|
+| `https://ms-producto.onrender.com/swagger-ui.html` | ms-producto|
+| `https://ms-kardex.onrender.com/swagger-ui.html` | ms-kardex|
+| `https://ms-ingresos.onrender.com/swagger-ui.html` | ms-ingresos|
+| `https://ms-egresos.onrender.com/swagger-ui.html` | ms-egresos|
+| `https://ms-ajuste.onrender.com/swagger-ui.html` | ms-ajuste|
+| `https://ms-traslados.onrender.com/swagger-ui.html` | ms-traslados|
 
 
-Angelica Araya
+## Rutas API Gateway
+
+Todo el tráfico externo pasa por el Gateway (`ms-gateway`). Las rutas
+se resuelven vía Eureka con Circuit Breaker (Resilience4j) en cada una:
+`https://ms-gateway-k273.onrender.com`
+| Ruta | Servicio | Fallback si falla |
+|---|---|---|
+| `/api/usuarios` | ms-usuarios | `/fallback/usuarios` |
+| `/api/categorias` | ms-categorias | `/fallback/categorias` |
+| `/api/ubicaciones` | ms-bodega | `/fallback/bodega` |
+| `/api/proveedores` | ms-proveedores | `/fallback/proveedores` |
+| `/api/productos` | ms-producto | `/fallback/producto` |
+| `/api/kardex (/movimientos)` | ms-kardex | `/fallback/kardex` |
+| `/api/ingresos` | ms-ingresos | `/fallback/ingresos` |
+| `/api/egresos` | ms-egresos | `/fallback/egresos` |
+| `/api/ajustes` | ms-ajuste | `/fallback/ajuste` |
+| `/api/traslados` | ms-traslados | `/fallback/traslados` |
+
+
+
+# Proyecto elaborado por:
+
+### Daniel Azocar
+### Angelica Araya
