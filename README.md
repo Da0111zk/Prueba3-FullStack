@@ -45,7 +45,7 @@ Cada microservicio se registra en Eureka al arrancar y expone su propia base de 
 | Service Discovery | Netflix Eureka |
 | API Gateway | Spring Cloud Gateway + Resilience4j (Circuit Breaker) |
 | Persistencia | Spring Data JPA + Oracle Cloud Autonomous DB (Oracle Wallet) |
-| Comunicación entre servicios | WebClient (Spring WebFlux, no bloqueante) |
+| Comunicación entre servicios | WebClient (cliente HTTP reactivo, invocado de forma síncrona con `.block()`) |
 | Documentación de API | Springdoc OpenAPI / Swagger UI |
 | Testing | JUnit 5 + Mockito |
 | Contenerización | Docker (multi-stage build) |
@@ -79,7 +79,7 @@ Todo el tráfico externo pasa por el Gateway en el puerto **8080**; los puertos 
 
 ### Requisitos previos
 - Docker y Docker Compose instalados
-- Oracle Wallet del proyecto (carpeta `Wallet_*`, no se versiona por seguridad)
+- Oracle Wallet del proyecto (carpeta `Wallet_*`, incluida en este repositorio para fines de evaluación del curso)
 
 ### Pasos
 
