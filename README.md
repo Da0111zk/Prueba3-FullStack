@@ -187,7 +187,10 @@ se resuelven vía Eureka con Circuit Breaker (Resilience4j) en cada una:
 | `/api/ajustes` | ms-ajuste | `/fallback/ajuste` |
 | `/api/traslados` | ms-traslados | `/fallback/traslados` |
 
+## Esquema de base de datos
 
+El DDL completo de las 10 tablas (una por microservicio) está versionado en
+[`database/schema.sql`](./database/schema.sql).
 
 # Proyecto elaborado por:
 
